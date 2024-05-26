@@ -1,0 +1,5 @@
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E171] Type Error: /home/gabriel/Escritorio/InterpreteLambda/src/main/scala/paquete/lexer.scala:4:18 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m4 |[0m    tokenizadorAux(expresion.split([31m""[0m).toList)[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m  |[0m    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0mmissing argument for parameter lista of [33mmethod[0m [35mtokenizadorAux[0m in [33mobject[0m [35mlexer[0m: (expresion: List[String], lista: List[paquete.Token]): List[paquete.Token][0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
