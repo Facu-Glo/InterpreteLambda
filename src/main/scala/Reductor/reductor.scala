@@ -8,12 +8,12 @@ object reductor {
     ////Me faltan los otros casos por ejemplo => ((expresion1 expresion2) argumento)
   }
 
-
   def sustituir(funcion: Ast, argumento: Ast, variable: String): Ast = funcion match {
     case Var(nombre) if nombre == variable => argumento
     case Var(nombre) => Var(nombre)
     case Abstr(ligada, cuerpo) if ligada == variable => Abstr(ligada, cuerpo)
     case Abstr(ligada, cuerpo) => Abstr(ligada, sustituir(cuerpo, argumento, variable))
+    case App(Abstr(ligada,cuerpo),e2) => App(sustituir(cuerpo,argumento,ligada),e2)
     case App(e1, e2) => App(sustituir(e1, argumento, variable), sustituir(e2, argumento, variable))
   }
 
