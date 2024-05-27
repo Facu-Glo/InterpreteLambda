@@ -17,22 +17,17 @@ git clone https://github.com/Facu-Glo/InterpreteLambda
 cd InterpreteLambda
 ```
 
-### Ingresar a modo sbt
-> [!NOTE]
-> Al estar en modo sbt tu prompt debería verse de la siguiente forma
-> 
-> ```sbt:InterpreteLambda>```
-```bash
-sbt
-```
-
-
 ### Compilar
-```sbt
-compile
+```bash
+sbt compile
 ```
 
 ### Ejecutar
-```sbt
-run
+```bash
+sbt run
+```
+
+### Test
+```bash
+sbt test
 ```
