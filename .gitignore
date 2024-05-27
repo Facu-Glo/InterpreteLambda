@@ -8,18 +8,12 @@
 # sbt specific
 target/
 project/target/
-project/project/
-.history
-.cache
-.lib/
-lib_managed/
-src_managed/
-dist/
-target-resolution-cache/
-boot/
-components/
-preloaded/
-*.lock
+project/target/*
+project/target/active.json
+project/target/config-classes/
+project/target/scala-*/sbt-*/update/
+project/target/streams/
+.bsp/
 
 # sbt build specific
 *.log
