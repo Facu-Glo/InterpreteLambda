@@ -1,0 +1,80 @@
+# Compiled class files
+*.class
+*.lo
+*.o
+*.pyc
+*.swp
+
+# sbt specific
+target/
+project/target/
+project/project/
+.history
+.cache
+.lib/
+lib_managed/
+src_managed/
+dist/
+target-resolution-cache/
+boot/
+components/
+preloaded/
+*.lock
+
+# sbt build specific
+*.log
+*.lock
+ivy2/
+coursier/
+
+# Eclipse specific
+.metadata
+*.tmp
+*.bak
+*.swp
+*.swo
+*.log
+*.idea/
+*.classpath
+*.project
+*.settings/
+*.tps
+*.launch
+
+# Intellij specific
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea_modules/
+.idea/
+*.iml
+
+# VS Code specific
+.vscode/
+
+# Mac specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+
+# Icon must end with two \r
+Icon
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux specific
+*~
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
