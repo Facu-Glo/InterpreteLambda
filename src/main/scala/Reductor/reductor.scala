@@ -36,6 +36,7 @@ object reductor {
           case App(e1,e2) => Abstr(parametro+ "*",App(conversionAlfa(e1,variableLi),conversionAlfa(e2,variableLi)))
           case _ => Abstr(parametro + "*", conversionAlfa(cuerpo, variableLi))
         }
+
       case Abstr(parametro, cuerpo) => Abstr(parametro,conversionAlfa(cuerpo, variableLi))
       case App(e1, e2) => App(conversionAlfa(e1, variableLi), e2)
     }
