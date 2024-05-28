@@ -6,7 +6,7 @@
 ## Integrantes
 * Cardoso Juan
 * Almanza Lucía
-* López Facundo
+* López Facundo Gabriel
 * Fernández Ignacio
 
 ## Como ejecutar
