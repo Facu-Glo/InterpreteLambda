@@ -5,7 +5,7 @@ import Parser.{Var,App,Abstr, Ast,Parser}
 object reductor {
   def reductor(arbol: Any): Ast =
     //reductor CallByName
-    val ast = sustitucionAlfa(arbol,variablesLibres(arbol))
+    val ast = conversionAlfa(arbol,variablesLibres(arbol))
     ast match {
       case Abstr(param, cuerpo) => Abstr(param,cuerpo)
       case Var(nombre) => Var(nombre)
@@ -27,13 +27,17 @@ object reductor {
     case App(e1,e2) => variablesLibres(e1)|variablesLibres(e2)
   }
 
-  def sustitucionAlfa(arbol: Any,variableLi: Set[String]):Ast =
+  def conversionAlfa(arbol: Any, variableLi: Set[String]):Ast =
     arbol match {
       case Var(nombre) if variableLi.contains(nombre) => Var(nombre + "*")
       case Var(nombre) => Var(nombre)
-      case Abstr(parametro, cuerpo) if variableLi.contains(parametro) => Abstr(parametro + "*", sustitucionAlfa(cuerpo, variableLi))
-      case Abstr(parametro, cuerpo) => Abstr(parametro,sustitucionAlfa(cuerpo, variableLi))
-      case App(e1, e2) => App(sustitucionAlfa(e1, variableLi), e2)
+      case Abstr(parametro, cuerpo) if variableLi.contains(parametro) =>
+        cuerpo match{
+          case App(e1,e2) => Abstr(parametro+ "*",App(conversionAlfa(e1,variableLi),conversionAlfa(e2,variableLi)))
+          case _ => Abstr(parametro + "*", conversionAlfa(cuerpo, variableLi))
+        }
+      case Abstr(parametro, cuerpo) => Abstr(parametro,conversionAlfa(cuerpo, variableLi))
+      case App(e1, e2) => App(conversionAlfa(e1, variableLi), e2)
     }
 }
 
