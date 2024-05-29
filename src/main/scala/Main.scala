@@ -11,7 +11,7 @@ object Main {
     val variablesLibres = reductor.variablesLibres(pars)
     val reduccion = reductor.reductor(pars)
     println(s"---> Input: $str")
-    println(s"---> Conversion alfa: ${Parser.parser(reductor.conversionAlfa(pars,variablesLibres))}")
+    println(s"---> Conversion alfa: ${Parser.parser(reductor.conversionAlfa(pars,"",variablesLibres))}")
     println(s"Lexer: $lex")
     println(s"Parser: $pars")
     println(s"Unparser: $unpar")
