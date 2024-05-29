@@ -5,13 +5,14 @@ import Parser.{Var,App,Abstr, Ast,Parser}
 object reductor {
   def reductor(arbol: Any): Ast =
     //reductor CallByName
-    val ast = conversionAlfa(arbol,variablesLibres(arbol))
+    val ast = conversionAlfa(arbol,"",variablesLibres(arbol))
     ast match {
       case Abstr(param, cuerpo) => Abstr(param,cuerpo)
       case Var(nombre) => Var(nombre)
-      case App(e1,e2) => sustituir(e1, e2, "")
+      case App(e1,e2) => reductor(sustituir(e1, e2, ""))
     }
-
+  //def reductorCallByValue(arbol: Any)
+  
   def sustituir(funcion: Ast, argumento: Ast, variable: String): Ast =
     funcion match {
     case Var(nombre) if nombre == variable => argumento
@@ -26,22 +27,19 @@ object reductor {
     case Abstr(variable,cuerpo) => variablesLibres(cuerpo) - variable
     case App(e1,e2) => variablesLibres(e1)|variablesLibres(e2)
   }
-
-  def conversionAlfa(arbol: Any, variableLi: Set[String]):Ast =
+  
+  def conversionAlfa(arbol:Any, parametro:String, variables:Set[String]):Ast=
     arbol match {
-      case Var(nombre) if variableLi.contains(nombre) => Var(nombre + "*")
+      case Var(nombre) if nombre == parametro => Var(nombre +"*")
       case Var(nombre) => Var(nombre)
-      case Abstr(parametro, cuerpo) if variableLi.contains(parametro) =>
-        cuerpo match{
-          case App(e1,e2) => Abstr(parametro+ "*",App(conversionAlfa(e1,variableLi),conversionAlfa(e2,variableLi)))
-          case _ => Abstr(parametro + "*", conversionAlfa(cuerpo, variableLi))
-        }
-
-      case Abstr(parametro, cuerpo) => Abstr(parametro,conversionAlfa(cuerpo, variableLi))
-      case App(e1, e2) => App(conversionAlfa(e1, variableLi), e2)
+      case Abstr(param,cuerpo) if variables.contains(param) =>
+        cuerpo match
+          case App(e1,e2) => Abstr(param+"*",App(conversionAlfa(e1,param,variables),conversionAlfa(e2,param,variables)))
+          case _ => Abstr(param+"*",conversionAlfa(cuerpo,param,variables))
+      case Abstr(param, cuerpo) => Abstr(param,conversionAlfa(cuerpo,parametro, variables))
+      case App(e1, e2) => App(conversionAlfa(e1,parametro, variables), e2)
     }
 }
-
 //*********************************************************
 // ANTERIOR VERSION
 
