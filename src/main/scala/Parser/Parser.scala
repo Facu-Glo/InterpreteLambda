@@ -2,13 +2,9 @@ package Parser
 import Lexer.{ESPACIO, EXPRESION, LAMBDA, L_PAR, PUNTO, R_PAR, Token}
 
 object Parser {
-    def parser[A](incognita: A): Any = incognita match{
-        case x: List[Token] =>
-            val (ast,_) = parserAux(x)
-            ast
-        case s : Ast => unParser(s)
-
-    }
+    def parser(lista: List[Token]): Ast =
+        val(ast,_)=parserAux(lista)
+        ast
 
     private def parserAux(tokens:List[Token]):(Ast, List[Token]) = tokens match {
         case EXPRESION(nombre) :: resto => (Var(nombre),resto)
@@ -27,7 +23,7 @@ object Parser {
             }
     }
 
-    private def unParser(arbol: Ast): String = arbol match {
+    def unParser(arbol: Ast): String = arbol match {
         case Var(nombre) => nombre
         case Abstr(variable, cuerpo) => "λ" + variable + "." + unParser(cuerpo)
         case App(funcion, argumento) =>
