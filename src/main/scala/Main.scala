@@ -8,6 +8,7 @@ object Main {
     println("\nIntérprete de Cálculo Lambda\n")
     println("-> Puede utilizar \\ para el símbolo λ")
     println("-> Se requiere paréntesis para indicar la aplicación.")
+    println("-> 'exit' para salir.\n")
     interfaz(reductor.callByName,"reduccion")
   }
 
