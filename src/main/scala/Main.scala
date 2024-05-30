@@ -6,12 +6,14 @@ import Reductor.reductor
 object Main {
   def main(args: Array[String]): Unit = {
     println("\nIntérprete de Cálculo Lambda\n")
+    println("-> Puede utilizar \\ para el símbolo λ")
+    println("-> Se requiere paréntesis para indicar la aplicación.")
     interfaz(reductor.callByName,"reduccion")
   }
 
-  def interfaz(fEstrategia: Any => Ast, modo: String): Unit = {
+  def interfaz(fEstrategia: Ast => Ast, modo: String): Unit = {
     print("Input> ")
-    val input = StdIn.readLine()
+    val input: String = StdIn.readLine()
     input match
       case "exit" => println("Saliendo")
       case x: String if x.startsWith("set") =>
@@ -31,8 +33,12 @@ object Main {
         val tokens = lexer.tokenizador(expresion)
         val parser = Parser.parser(tokens)
         modo match
-          case "reduccion" => println(s"Reduccion-β: ${Parser.parser(fEstrategia(parser))}")
-          case "variables" => println(s"Conjunto de variables libres: ${reductor.variablesLibresGraf(parser)}")
+          case "reduccion" => println(s"Reduccion-β: ${Parser.unParser(fEstrategia(parser))}")
+          case "variables" =>
+            reductor.variablesLibres(parser) match
+              case x if x.nonEmpty=> println(s"Conjunto de variables libres: {${x.reduce((x:String,y:String) => x + "," + y)}}")
+              case _ => println("{}")
         interfaz(fEstrategia, modo)
   }
+
 }
