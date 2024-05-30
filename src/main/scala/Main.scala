@@ -1,21 +1,38 @@
+import scala.io.StdIn
 import Lexer.lexer
-import Parser.Parser
+import Parser.{Ast, Parser}
 import Reductor.reductor
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val str = "(λx.λy.(x y) y)"  //ESTA PRUEBA EL CALL BY NAME NO LO HACE BIEN --> ((λc.c λa.λb.b) ((λa.λb.λf.((f a) b) p) q))
-    val lex = lexer.tokenizador(str)
-    val pars= Parser.parser(lex)
-    val unpar= Parser.parser(pars)
-    val variablesLibres = reductor.variablesLibres(pars)
-    val reduccion = reductor.reductor(pars)
-    println(s"---> Input: $str")
-    println(s"---> Conversion alfa: ${Parser.parser(reductor.conversionAlfa(pars,"",variablesLibres))}")
-    println(s"Lexer: $lex")
-    println(s"Parser: $pars")
-    println(s"Unparser: $unpar")
-    println(s"Variables Libres: $variablesLibres")
-    println(s"Reductor: ${Parser.parser(reduccion)}")
+    println("\nIntérprete de Cálculo Lambda\n")
+    interfaz(reductor.callByName,"reduccion")
+  }
+
+  def interfaz(fEstrategia: Any => Ast, modo: String): Unit = {
+    print("Input> ")
+    val input = StdIn.readLine()
+    input match
+      case "exit" => println("Saliendo")
+      case x: String if x.startsWith("set") =>
+        val parte = x.split(" ")
+        val (estrategia, modo) = parte(1) match
+          case "call-by-value" =>
+            println("Estrategia de reducción: Call-by-value")
+            (reductor.callByValue, "reduccion")
+          case "call-by-name" =>
+            println("Estrategia de reducción: Call-by-name")
+            (reductor.callByName, "reduccion")
+          case "free-variables" =>
+            println("Modo seleccionado: Ver variables libres")
+            (fEstrategia, "variables")
+        interfaz(estrategia, modo)
+      case expresion: String =>
+        val tokens = lexer.tokenizador(expresion)
+        val parser = Parser.parser(tokens)
+        modo match
+          case "reduccion" => println(s"Reduccion-β: ${Parser.parser(fEstrategia(parser))}")
+          case "variables" => println(s"Conjunto de variables libres: ${reductor.variablesLibresGraf(parser)}")
+        interfaz(fEstrategia, modo)
   }
 }
