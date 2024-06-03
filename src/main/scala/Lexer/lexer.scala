@@ -1,5 +1,6 @@
 package Lexer
 object lexer {
+  
   def tokenizador(expresion: String):List[Token]={
     tokenizadorAux(expresion.split("").toList, List())
   }
