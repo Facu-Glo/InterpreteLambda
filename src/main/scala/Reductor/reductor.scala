@@ -4,7 +4,7 @@ import Parser.{Var,App,Abstr, Ast,Parser}
 
 object reductor {
 
-  def callByValue(arbol: Ast): Ast = {
+  def callByValue(arbol: Any): Ast = {
     val nuevo = conversionAlfa(arbol, "", variablesLibres(arbol))
     nuevo match
       case Var(nombre) => nuevo
@@ -17,7 +17,7 @@ object reductor {
           case _ => nuevo
   }
 
-  def callByName(arbol: Ast): Ast = {
+  def callByName(arbol: Any): Ast = {
     val nuevo = conversionAlfa(arbol, "", variablesLibres(arbol))
     nuevo match
       case Var(nombre) => nuevo
@@ -28,25 +28,25 @@ object reductor {
           case _ => nuevo
   }
 
-  def sustituir(arbol: Ast, variable: String, argumento: Ast): Ast = {
+  def sustituir(arbol: Any, variable: String, argumento: Ast): Ast = {
     arbol match
       case Var(nombre) if nombre == variable => argumento
-      case Var(nombre) => arbol
-      case Abstr(param, cuerpo) if param == variable => arbol
+      case Var(nombre) => Var(nombre)
+      case Abstr(param, cuerpo) if param == variable => Abstr(param,cuerpo)
       case Abstr(param, cuerpo) => Abstr(param, sustituir(cuerpo, variable, argumento))
       case App(e1, e2) => App(sustituir(e1, variable, argumento), sustituir(e2, variable, argumento))
   }
 
-  def variablesLibres(ast: Ast): Set[String] = ast match {
+  def variablesLibres(ast: Any): Set[String] = ast match {
     case Var(nombre) => Set(nombre)
     case Abstr(variable,cuerpo) => variablesLibres(cuerpo) - variable
     case App(e1,e2) => variablesLibres(e1)|variablesLibres(e2)
   }
   
-  def conversionAlfa(arbol:Ast, parametro:String, variables:Set[String]):Ast=
+  def conversionAlfa(arbol:Any, parametro:String, variables:Set[String]):Ast=
     arbol match {
       case Var(nombre) if nombre == parametro => Var(nombre +"*")
-      case Var(nombre) => arbol
+      case Var(nombre) => Var(nombre)
       case Abstr(param,cuerpo) if variables.contains(param) =>
         cuerpo match
           case App(e1,e2) => Abstr(param+"*",App(conversionAlfa(e1,param,variables),conversionAlfa(e2,param,variables)))
