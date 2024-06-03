@@ -1,4 +1,5 @@
-package Parser
+package Parser 
+
 import Lexer.{ESPACIO, EXPRESION, LAMBDA, L_PAR, PUNTO, R_PAR, Token}
 
 object Parser {
