@@ -13,7 +13,8 @@
 
 ### Clonar
 ```bash
-https://github.com/Facu-Glo/InterpreteLambda.git
+git clone https://github.com/Facu-Glo/InterpreteLambda.git
+
 cd InterpreteLambda
 ```
 
