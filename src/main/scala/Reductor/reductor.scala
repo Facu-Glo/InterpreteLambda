@@ -4,30 +4,33 @@ import Parser.{Var,App,Abstr, Ast,Parser}
 
 object reductor {
 
-  def callByValue(arbol: Any): Ast = {
+  def reduccion(arbol:Any,estrategia: Ast => Ast):Ast = {
     val nuevo = conversionAlfa(arbol, "", variablesLibres(arbol))
     nuevo match
       case Var(nombre) => nuevo
       case Abstr(param, cuerpo) => nuevo
-      case App(e1, e2) =>
-        callByValue(e1) match
-          case Abstr(param, cuerpo) =>
-            val valorArg = callByValue(e2)
-            callByValue(sustituir(cuerpo, param, valorArg))
-          case _ => nuevo
+      case App(e1,e2) => estrategia(nuevo)
   }
 
-  def callByName(arbol: Any): Ast = {
-    val nuevo = conversionAlfa(arbol, "", variablesLibres(arbol))
-    nuevo match
-      case Var(nombre) => nuevo
-      case Abstr(param, cuerpo) => nuevo
-      case App(e1, e2) =>
-        callByName(e1) match
-          case Abstr(param, cuerpo) => callByName(sustituir(cuerpo, param, e2))
-          case _ => nuevo
+  def callByValue(arbol: Ast):Ast = {
+    arbol match
+      case App(e1,e2) =>
+        reduccion(e1, callByValue) match
+          case Abstr(param,cuerpo) =>
+            val valorArg = reduccion(e2,callByValue)
+            reduccion(sustituir(cuerpo,param,valorArg),callByValue)
+          case _ => arbol
+      case _ => arbol
   }
-
+  
+  def callByName(arbol:Ast):Ast = {
+    arbol match
+      case App(e1,e2) =>
+        reduccion(e1, callByName) match
+          case Abstr(param, cuerpo) => reduccion(sustituir(cuerpo, param, e2),callByName)
+          case _ => arbol
+      case _ => arbol
+  }
   def sustituir(arbol: Any, variable: String, argumento: Ast): Ast = {
     arbol match
       case Var(nombre) if nombre == variable => argumento

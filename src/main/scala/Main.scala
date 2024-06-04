@@ -12,9 +12,9 @@ object Main {
     interfaz(reductor.callByName,"reduccion")
   }
 
-  def interfaz(fEstrategia: Any => Ast, modo: String): Unit = {
+  def interfaz(fEstrategia: Ast => Ast, modo: String): Unit = {
     print("Input> ")
-    val input: String = StdIn.readLine()
+    val input: String = StdIn.readLine().toLowerCase()
     input match
       case "exit" => println("Saliendo")
       case x: String if x.startsWith("set") =>
@@ -34,7 +34,7 @@ object Main {
         val tokens = lexer.tokenizador(expresion)
         val parser = Parser.parser(tokens)
         modo match
-          case "reduccion" => println(s"Reduccion-β: ${Parser.parser(fEstrategia(parser))}")
+          case "reduccion" => println(s"Reduccion-β: ${Parser.parser(reductor.reduccion(parser,fEstrategia))}")
           case "variables" =>
             reductor.variablesLibres(parser) match
               case x if x.nonEmpty=> println(s"Conjunto de variables libres: {${x.reduce((x:String,y:String) => x + "," + y)}}")
