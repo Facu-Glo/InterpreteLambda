@@ -13,7 +13,7 @@ object Main {
 
   def interfaz(fEstrategia: Ast => Ast, modo: String): Unit = {
     print("Input> ")
-    val input: String = StdIn.readLine()
+    val input: String = StdIn.readLine().toLowerCase()
     input match
       case "exit" => println("Saliendo")
       case x: String if x.startsWith("set") =>
