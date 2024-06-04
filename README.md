@@ -1,3 +1,11 @@
+# TODO:
+
+1. Dependencias
+2. Como usar (comandos válidos)
+
+
+--------
+
 # TP 2: Calculo Lambda
 **Fecha de entrega**: 07/06/2024
 
@@ -32,3 +40,6 @@ sbt run
 ```bash
 sbt test
 ```
+
+
+
