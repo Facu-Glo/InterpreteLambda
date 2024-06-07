@@ -1,16 +1,9 @@
-# TODO:
-
-1. Dependencias
-2. Como usar (comandos válidos)
-
-
---------
-
 # TP 2: Calculo Lambda
 **Fecha de entrega**: 07/06/2024
 
 **[Enunciado](https://www.paradigmas.ar/assets/pdf/TP2-1c2024.pdf)**
 
+**[Informe](Interprete_Lambda_Grupo10)**
 ## Integrantes
 * Cardoso Juan
 * Almanza Lucía
