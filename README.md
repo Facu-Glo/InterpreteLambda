@@ -3,7 +3,7 @@
 
 **[Enunciado](https://www.paradigmas.ar/assets/pdf/TP2-1c2024.pdf)**
 
-**[Informe](Interprete_Lambda_Grupo10)**
+**[Informe](Interprete_Lambda_Grupo10.pdf)**
 ## Integrantes
 * Cardoso Juan
 * Almanza Lucía
